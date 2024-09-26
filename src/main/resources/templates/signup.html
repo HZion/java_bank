@@ -10,28 +10,33 @@
 <header>
     <h1>회원가입</h1>
     <nav>
-        <a href="index.html">홈</a>
-        <a href="login.html">로그인</a>
-        <a href="signup.html">회원가입</a>
-        <a href="account.html">계좌 정보</a>
+        <a href="index">홈</a>
+        <a href="login">로그인</a>
+        <a href="signup">회원가입</a>
+        <a href="account">계좌 정보</a>
     </nav>
 </header>
 
 <main>
-
-        <h2>회원가입</h2>
-        <form id="signupForm">
-            <input type="text" placeholder="사용자 이름" required>
-            <input type="password" placeholder="비밀번호" required>
+    <h2>회원가입</h2>
+    <form id="signupForm" th:action="@{/signup}" method="post"> <!-- POST 방식과 action 추가 -->
+        <div>
+            <label for="username">사용자 이름</label>
+            <input type="text" id="username" name="username" placeholder="사용자 이름" required>
+        </div>
+        <div>
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호" required autocomplete="current-password">
+        </div>
+        <div>
             <button type="submit">회원가입</button>
-        </form>
-
+        </div>
+    </form>
 </main>
 
 <footer>
     <p>&copy; 2024 은행 사이트</p>
 </footer>
 
-<script src="scripts.js"></script>
 </body>
 </html>

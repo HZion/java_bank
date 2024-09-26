@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     @Autowired
     private UserService userService;
-    @GetMapping("/index.html")
+    @GetMapping("/index")
     public String home() {
         return "index" ;
     }
@@ -22,7 +22,7 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/login.html")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
@@ -38,7 +38,7 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/signup.html")
+    @GetMapping("/signup")
     public String signup() {
         return "signup";
     }
@@ -51,7 +51,7 @@ public class UserController {
         userService.saveUser(user);
         return "login";
     }
-    @GetMapping("/account.html")
+    @GetMapping("/account")
     public String account() {
         return "account";
     }
