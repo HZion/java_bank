@@ -1,17 +1,30 @@
 package com.sion.bank.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "account") // SQL에서 생성한 테이블 이름
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    // 생성자
+    public User() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     // Getters and Setters
     public Long getId() {
@@ -36,5 +49,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
