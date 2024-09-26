@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -16,6 +16,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/index")
     public String home(HttpSession session, Model model) {
@@ -42,8 +44,9 @@ public class UserController {
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         User user = userService.findByUsername(username);
+        
         if (user != null && user.getPassword().equals(password)) {
-            session.setAttribute("username", user.getUsername()); // 세션에 유저 저장
+            session.setAttribute("username", user.getUsername());// 세션에 유저 저장
             model.addAttribute("message", "로그인 성공!");
             return "redirect:/index"; // 로그인 후 홈으로 이동
         }
@@ -62,12 +65,26 @@ public class UserController {
         return "signup";
     }
 
+//    @PostMapping("/signup")
+//    public String registerUser(@RequestParam String username, @RequestParam String password) {
+//        User user = new User();
+//        user.setUsername(username);
+//        user.setPassword(password);
+//        userService.saveUser(user);
+//        return "login";
+//    }
+
     @PostMapping("/signup")
     public String registerUser(@RequestParam String username, @RequestParam String password) {
+        if (userService.findByUsername(username) != null) {
+            return "signup?error";
+        }
+
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));  // 비밀번호 암호화
         userService.saveUser(user);
+
         return "login";
     }
 
