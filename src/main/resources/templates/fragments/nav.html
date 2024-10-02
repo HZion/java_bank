@@ -1,0 +1,17 @@
+
+<nav>
+    <a href="/index">홈</a>
+    <a href="/account">계좌 정보</a>
+
+    <!-- 세션에 username이 있을 때 -->
+    <div th:if="${session.username}">
+        <span th:text="'환영합니다, ' + ${session.username} + '님'"></span>
+        <a href="/logout">로그아웃</a>
+    </div>
+
+    <!-- 세션에 username이 없을 때 -->
+    <div th:if="${session.username == null}">
+        <a href="/login">로그인</a>
+        <a href="/signup">회원가입</a>
+    </div>
+</nav>
