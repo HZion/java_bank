@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toss Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="max-w-md mx-auto bg-white min-h-screen">
+    <!-- Header -->
+    <header class="p-4 flex justify-between items-center border-b">
+        <div class="flex items-center">
+            <div class="w-10 h-10 bg-blue-500 rounded-full mr-3"></div>
+            <div>
+                <h1 class="font-bold">김토스</h1>
+                <p class="text-sm text-gray-500">내 정보 보기</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button class="text-2xl">+</button>
+            <button class="text-2xl">🔔</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-4">
+        <!-- Send Money Button -->
+        <button class="w-full bg-blue-500 text-white py-3 rounded-lg mb-6 flex justify-center items-center">
+            <span class="mr-2">송금하기</span>
+            <span class="text-xl">→</span>
+        </button>
+
+        <!-- Accounts Section -->
+        <section class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="font-bold">계좌 <span class="text-blue-500">3</span></h2>
+                <div class="flex items-center">
+                    <span class="font-bold mr-2">3,475,504 원</span>
+                    <span class="text-xl">→</span>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center">T</div>
+                        <div>
+                            <p class="font-semibold">토스뱅크 통장</p>
+                            <p class="text-sm text-gray-500">1,254,429 원</p>
+                        </div>
+                    </div>
+                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center">W</div>
+                        <div>
+                            <p class="font-semibold">우리은행 급여통장</p>
+                            <p class="text-sm text-gray-500">2,083,606 원</p>
+                        </div>
+                    </div>
+                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center">K</div>
+                        <div>
+                            <p class="font-semibold">KB국민은행 자유입출금</p>
+                            <p class="text-sm text-gray-500">137,469 원</p>
+                        </div>
+                    </div>
+                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards Section -->
+        <section>
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="font-bold">카드 <span class="text-blue-500">2</span></h2>
+                <div class="flex items-center">
+                    <span class="font-bold mr-2">1,487,275 원</span>
+                    <span class="text-xl">→</span>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full mr-3 flex items-center justify-center text-white">T</div>
+                        <div>
+                            <p class="font-semibold">토스카드</p>
+                            <p class="text-sm text-gray-500">573,600 원</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-700 rounded-full mr-3 flex items-center justify-center text-white">S</div>
+                        <div>
+                            <p class="font-semibold">신한카드</p>
+                            <p class="text-sm text-gray-500">913,675 원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t">
+        <div class="max-w-md mx-auto flex justify-between items-center p-4">
+            <button class="flex flex-col items-center">
+                <span class="text-2xl text-blue-500">🏠</span>
+                <span class="text-xs mt-1">홈</span>
+            </button>
+            <button class="flex flex-col items-center">
+                <span class="text-2xl">💳</span>
+                <span class="text-xs mt-1">내 소비</span>
+            </button>
+            <button class="flex flex-col items-center">
+                <span class="text-2xl">➕</span>
+                <span class="text-xs mt-1">보내기</span>
+            </button>
+            <button class="flex flex-col items-center">
+                <span class="text-2xl">☰</span>
+                <span class="text-xs mt-1">전체</span>
+            </button>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
