@@ -1,17 +1,35 @@
 package com.sion.bank.model;
 
-import  com.sion.bank.model.*;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import java.util.Collection;
 import java.util.List;
+
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    @Column(name = "roles")
+    private String roles;
+
+
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -30,17 +48,18 @@ public class User {
 
     // Constructors, getters, and setters
 
-    public User(Long id, String username, String password, LocalDateTime createdAt, LocalDateTime updatedAt, List<Account> accounts) {
+    public User(Long id, String username, String password, LocalDateTime createdAt, LocalDateTime updatedAt, List<Account> accounts, String roles) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.accounts = accounts;
+        this.roles = roles;
     }
 
     public User() {
-
+        this.roles = "ROLE_USER";
     }
 
     public Long getId() {
@@ -55,8 +74,33 @@ public class User {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
     }
 
     public String getPassword() {
