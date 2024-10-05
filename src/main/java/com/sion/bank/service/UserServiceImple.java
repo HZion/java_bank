@@ -3,39 +3,69 @@ package com.sion.bank.service;
 import com.sion.bank.model.User;
 import com.sion.bank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class UserServiceImple implements UserService {
+public class UserServiceImple implements UserService, UserDetailsService  {
 
     @Autowired
     private UserRepository userRepository;
 
-
-    public void saveUser(User user) {
-        userRepository.save(user);  // 비밀번호 암호화 없이 저장
-    }
-
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+    @Override
+    @Transactional
     public User registerUser(String username, String password) {
-        return null;
+
+        if (!isUsernameAvailable(username)) {
+            throw new RuntimeException("Username already exists");
+        }
+        User user = new User();
+
+        user.setRoles("ROLE_USER");
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+
+        return userRepository.save(user);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return null;
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
     public boolean isUsernameAvailable(String username) {
-        return false;
+        return !userRepository.existsByUsername(username);
+    }
+
+
+    @Override
+    public User loginUser(String username, String password) {
+
+        User user = getUserByUsername(username);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        throw new RuntimeException("Invalid username or password");
     }
 }
-
-
