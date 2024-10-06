@@ -33,8 +33,7 @@ public class UserController {
 
         try {
             User user = userService.loginUser(username, password);
-            System.out.println("print");
-            System.out.println(user.getUsername());
+
             // 로그인 성공 시 세션에 사용자 정보 저장
             // session.setAttribute("user", user);
             return "redirect:/home";  // 홈 페이지로 리다이렉트

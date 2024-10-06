@@ -13,7 +13,8 @@
         <div class="flex items-center">
             <div class="w-10 h-10 bg-blue-500 rounded-full mr-3"></div>
             <div>
-                <h1 class="font-bold">김토스</h1>
+                <h1 class="font-bold"><span th:text="${username}"></span>!</h1>
+                <p>Your role is: <span th:text="${role}"></span></p>
                 <p class="text-sm text-gray-500">내 정보 보기</p>
             </div>
         </div>
@@ -107,26 +108,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t">
-        <div class="max-w-md mx-auto flex justify-between items-center p-4">
-            <button class="flex flex-col items-center">
-                <span class="text-2xl text-blue-500">🏠</span>
-                <span class="text-xs mt-1">홈</span>
-            </button>
-            <button class="flex flex-col items-center">
-                <span class="text-2xl">💳</span>
-                <span class="text-xs mt-1">내 소비</span>
-            </button>
-            <button class="flex flex-col items-center">
-                <span class="text-2xl">➕</span>
-                <span class="text-xs mt-1">보내기</span>
-            </button>
-            <button class="flex flex-col items-center">
-                <span class="text-2xl">☰</span>
-                <span class="text-xs mt-1">전체</span>
-            </button>
-        </div>
-    </footer>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>
