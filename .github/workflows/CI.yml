@@ -44,9 +44,10 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/OWNER/REPOSITORY
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml \
+            -DaltDeploymentRepository=github::https://maven.pkg.github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Configure AWS CLI
       uses: aws-actions/configure-aws-credentials@v1
@@ -57,4 +58,4 @@ jobs:
 
     - name: Upload to S3
       run: |
-        aws s3 cp target/my-artifact.jar s3://gu9duck.lion2.nyhhs.com/ --acl public-read
+        aws s3 cp target/bank-0.0.1-SNAPSHOT.jar s3://gu9duck.lion2.nyhhs.com/ --acl public-read
