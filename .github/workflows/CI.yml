@@ -44,8 +44,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml \
-            -DaltDeploymentRepository=github::https://maven.pkg.github.com/HZion/java_bank
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -DaltDeploymentRepository=github::https://maven.pkg.github.com/HZion/java_bank  # 사용자명과 리포지토리 이름으로 수정
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
