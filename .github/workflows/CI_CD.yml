@@ -66,3 +66,10 @@ jobs:
     - name: Upload to S3
       run: |
         aws s3 cp target/bank-0.0.1-SNAPSHOT.jar s3://gu9duck.lion2.nyhhs.com/
+        
+    # AWS 연결 상태 확인 (push나 pull 하면 aws 작동)
+    - name: Check AWS Connection
+      run: |
+        aws --version
+        aws iam get-user
+        aws s3 ls
