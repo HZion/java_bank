@@ -45,7 +45,7 @@ jobs:
 
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml \
-            -DaltDeploymentRepository=github::https://maven.pkg.github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY
+            -DaltDeploymentRepository=github::https://maven.pkg.github.com/HZion/java_bank
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
