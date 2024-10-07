@@ -5,10 +5,18 @@ on:
     branches:
       - main
       - develop
+      - feature/login
+      - feature/login-security
+      - feature/login-session
+      - feature-main
   pull_request:
     branches:
       - main
       - develop
+      - feature/login
+      - feature/login-security
+      - feature/login-session
+      - feature-main
 
 jobs:
   build:
