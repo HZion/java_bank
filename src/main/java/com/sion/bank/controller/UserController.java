@@ -9,7 +9,7 @@ import com.sion.bank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.slf4j.Logger;
@@ -46,7 +46,10 @@ public class UserController {
 
 
     @PostMapping("/user/signup")
-    public String signUp(@RequestParam String username, @RequestParam String password, Model model) {
+    public String signUp(
+            @RequestParam String username,
+            @RequestParam String password,
+            Model model) {
         logger.info("User registration Controler started for: {}", username);
         try {
 

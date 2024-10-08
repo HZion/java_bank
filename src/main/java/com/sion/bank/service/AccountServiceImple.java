@@ -4,7 +4,10 @@ import com.sion.bank.model.Account;
 import com.sion.bank.model.AccountType;
 import com.sion.bank.model.User;
 import com.sion.bank.repository.AccountRepository;
+import com.sion.bank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +16,10 @@ import java.util.List;
 
 @Service
 public class AccountServiceImple implements AccountService {
-
+    @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public void AccountServiceImpl(AccountRepository accountRepository) {
@@ -23,13 +28,33 @@ public class AccountServiceImple implements AccountService {
 
     @Override
     @Transactional
-    public Account createAccount(User user, String accountName, String bankName, AccountType accountType) {
+    public Account createAccount(
+                                 String accountName,
+                                 String bankName,
+                                 AccountType accountType,
+                                 BigDecimal balance) {
+        
+        System.out.println("계좌생성시작");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 사용자의 ID(username) 가져오기
+        String username = authentication.getName();
+        System.out.println("Logged in username: " + username);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
+
         Account account = new Account();
+
         account.setUser(user);
         account.setAccountName(accountName);
         account.setBankName(bankName);
         account.setAccountType(accountType);
-        account.setAccountNumber(generateAccountNumber()); // 이 메서드는 별도로 구현해야 합니다.
+        account.setAccountNumber(generateAccountNumber());  // 계좌번호 생성 로직
+        account.setBalance(balance);
+
+
         return accountRepository.save(account);
     }
 
@@ -66,5 +91,20 @@ public class AccountServiceImple implements AccountService {
     private String generateAccountNumber() {
         // 계좌번호 생성 로직 구현
         return String.format("%014d", System.currentTimeMillis());
+    }
+
+    public static String convertToKorean(String accountType) {
+        switch (accountType) {
+            case "CHECKING":
+                return "입출금통장";
+            case "SAVINGS":
+                return "저축예금";
+            case "MONEY_MARKET":
+                return "MMF";
+            case "CERTIFICATE_OF_DEPOSIT":
+                return "정기예금";
+            default:
+                return accountType;
+        }
     }
 }

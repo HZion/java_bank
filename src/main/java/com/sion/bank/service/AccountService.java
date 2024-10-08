@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountService {
-    Account createAccount(User user, String accountName, String bankName, AccountType accountType);
+    Account createAccount( String accountName, String bankName, AccountType accountType, BigDecimal balance);
     List<Account> getUserAccounts(User user);
     Account getAccountByNumber(String accountNumber);
     void deposit(String accountNumber, BigDecimal amount);
