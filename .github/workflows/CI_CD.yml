@@ -63,17 +63,20 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: 'ap-northeast-1'
 
-    - name: Upload to S3
+    - name: Create deployment package
       run: |
-        aws s3 cp target/bank-0.0.1-SNAPSHOT.jar s3://gu9duck.lion2.nyhhs.com/
-        aws s3 cp appspec.yml s3://gu9duck.lion2.nyhhs.com/
-        
+        mkdir deploy-package
+        cp target/bank-0.0.1-SNAPSHOT.jar deploy-package/
+        cp appspec.yml deploy-package/
+        cd deploy-package
+        zip -r deployment.zip .  # ZIP 파일 생성
+        aws s3 cp deployment.zip s3://gu9duck.lion2.nyhhs.com/  # S3에 업로드
+
     # CodeDeploy에게 배포 명령
     - name: Deploy to CodeDeploy
       run: |
         aws deploy create-deployment \
           --application-name gu9duck-codedeploy \
           --deployment-group-name gu9duck-codedeploy-group \
-          --s3-location bucket=gu9duck.lion2.nyhhs.com,key=bank-0.0.1-SNAPSHOT.jar,bundleType=zip \
+          --s3-location bucket=gu9duck.lion2.nyhhs.com,key=deployment.zip,bundleType=zip \
           --deployment-config-name CodeDeployDefault.AllAtOnce
-
