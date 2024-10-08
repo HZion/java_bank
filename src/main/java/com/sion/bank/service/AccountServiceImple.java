@@ -65,7 +65,6 @@ public class AccountServiceImple implements AccountService {
 
     private String generateAccountNumber() {
         // 계좌번호 생성 로직 구현
-        // 실제 구현에서는 더 복잡한 로직이 필요할 수 있습니다.
         return String.format("%014d", System.currentTimeMillis());
     }
 }
