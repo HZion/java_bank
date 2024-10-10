@@ -24,6 +24,9 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      CODE_DEPLOY_APP_NAME: gu9duck-codedeploy
+      S3_BUCKET_NAME: gu9duck.lion2.nyhhs.com
 
     steps:
     - uses: actions/checkout@v4
@@ -67,8 +70,8 @@ jobs:
       run: zip -r deployment.zip target/bank-0.0.1-SNAPSHOT.jar appspec.yml scripts/before_install.sh scripts/after_install.sh scripts/start_application.sh scripts/stop_application.sh scripts/delete_existing_file.sh # ZIP 파일 생성
       
     - name: Upload to S3
-      run: aws s3 cp deployment.zip s3://gu9duck.lion2.nyhhs.com/  # S3에 ZIP 파일 업로
+      run: aws s3 cp deployment.zip s3://gu9duck.lion2.nyhhs.com/  # S3에 ZIP 파일 업로드
 
     # CodeDeploy에게 배포 명령
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-group-name gu9duck-codedeploy-new-group --s3-location bucket=$S3_BUCKET_NAME,key=practice-deploy.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce
+      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-group-name gu9duck-codedeploy-new-group --s3-location bucket=$S3_BUCKET_NAME,key=deployment.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce
