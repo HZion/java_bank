@@ -70,10 +70,5 @@ jobs:
       run: aws s3 cp deployment.zip s3://gu9duck.lion2.nyhhs.com/  # S3에 ZIP 파일 업로
 
     # CodeDeploy에게 배포 명령
-    - name: Deploy to CodeDeploy
-      run: |
-        aws deploy create-deployment \
-          --application-name gu9duck-codedeploy \
-          --deployment-group-name gu9duck-codedeploy-group \
-          --s3-location bucket=gu9duck.lion2.nyhhs.com,key=deployment.zip,bundleType=zip \
-          --deployment-config-name CodeDeployDefault.AllAtOnce
+    - name: Code Deploy
+      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-group-name $CODE_DEPLOY_GROUP_NAME --s3-location bucket=$S3_BUCKET_NAME,key=practice-deploy.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce
