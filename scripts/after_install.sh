@@ -6,3 +6,5 @@ sudo cp /opt/myapp/config/default.conf /etc/myapp/
 
 # 예: 파일 권한 설정 (옵션)
 sudo chmod +x /opt/myapp/bank-0.0.1-SNAPSHOT.jar
+
+sudo chmod +x /opt/myapp/scripts/*.sh
