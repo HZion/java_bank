@@ -64,8 +64,8 @@ jobs:
         aws-region: 'ap-northeast-1'
 
     - name: Zip files for deployment
-      run: zip -r deployment.zip target/bank-0.0.1-SNAPSHOT.jar appspec.yml  # ZIP 파일 생성
-
+      run: zip -r deployment.zip target/bank-0.0.1-SNAPSHOT.jar appspec.yml scripts/before_install.sh  # ZIP 파일 생성
+      
     - name: Upload to S3
       run: aws s3 cp deployment.zip s3://gu9duck.lion2.nyhhs.com/  # S3에 ZIP 파일 업로
 
