@@ -9,6 +9,9 @@ hooks:
     - location: scripts/before_install.sh
       timeout: 300
       runas: root
+    - location: scripts/delete_existing_file.sh
+      timeout: 300
+      runas: root
   AfterInstall:
     - location: scripts/after_install.sh
       timeout: 300
