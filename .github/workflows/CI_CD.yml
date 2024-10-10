@@ -74,6 +74,6 @@ jobs:
       run: |
         aws deploy create-deployment \
           --application-name gu9duck-codedeploy \
-          --deployment-group-name gu9duck-codedeploy-group \
+          --deployment-group-name gu9duck-codedeploy-new-group \
           --s3-location bucket=gu9duck.lion2.nyhhs.com,key=deployment.zip,bundleType=zip \
           --deployment-config-name CodeDeployDefault.AllAtOnce
