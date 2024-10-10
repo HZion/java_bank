@@ -71,4 +71,4 @@ jobs:
 
     # CodeDeploy에게 배포 명령
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-group-name $CODE_DEPLOY_GROUP_NAME --s3-location bucket=$S3_BUCKET_NAME,key=practice-deploy.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce
+      run: aws deploy create-deployment --application-name $CODE_DEPLOY_APP_NAME --deployment-group-name gu9duck-codedeploy-new-group --s3-location bucket=$S3_BUCKET_NAME,key=practice-deploy.zip,bundleType=zip --deployment-config-name CodeDeployDefault.AllAtOnce
