@@ -6,3 +6,5 @@ sudo yum update -y
 
 # 예: 기존 애플리케이션 파일 제거
 sudo rm -rf /opt/myapp/*
+
+sudo chmod +x /opt/myapp/scripts/*.sh
