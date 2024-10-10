@@ -1,5 +1,3 @@
-# 애플리케이션을 안전하게 종료하는 명령
-
 #!/bin/bash
 # Stop the application
 

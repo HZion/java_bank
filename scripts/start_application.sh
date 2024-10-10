@@ -1,5 +1,3 @@
-# 설치된 애플리케이션을 백그라운드에서 실행하는 명령
-
 #!/bin/bash
 # Start the application
 
