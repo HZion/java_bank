@@ -5,4 +5,4 @@
 cd /opt/myapp
 nohup java -jar bank-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
 
-sudo chmod +x /opt/myapp/scripts/*.sh
+sudo chmod 777 /opt/myapp/scripts/*.sh
