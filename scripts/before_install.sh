@@ -1,5 +1,3 @@
-# 애플리케이션 설치 전 환경을 정리하거나 준비하는 작업
-
 #!/bin/bash
 # Install any dependencies or clean previous installations
 

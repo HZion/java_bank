@@ -1,5 +1,3 @@
-# 애플리케이션 설치 후 설정 파일 등을 복사하거나 필요한 후속 작업
-
 #!/bin/bash
 # Post-installation tasks
 
