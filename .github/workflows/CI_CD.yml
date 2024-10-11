@@ -77,6 +77,6 @@ jobs:
       run: |
         aws deploy create-deployment \
           --application-name $CODE_DEPLOY_APP_NAME \
-          --deployment-group-name gu9duck-codedeploy-new-group \
+          --deployment-group-name gu9duck-codedeploy-group \
           --s3-location bucket=$S3_BUCKET_NAME,key=myapp-deployment.zip,bundleType=zip \
           --deployment-config-name CodeDeployDefault.AllAtOnce
