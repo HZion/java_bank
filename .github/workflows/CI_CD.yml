@@ -72,7 +72,7 @@ jobs:
         sed -i 's/\r//g' scripts/*.sh
 
     - name: Zip files for deployment
-      run: zip -r myapp-deployment.zip target/bank-0.0.1-SNAPSHOT.jar appspec.yml scripts/before_install.sh scripts/stop_application.sh scripts/delete_existing_file.sh 
+      run: zip -r myapp-deployment.zip target/bank-0.0.1-SNAPSHOT.jar appspec.yml scripts/before_install.sh scripts/after_install.sh scripts/delete_existing_file.sh 
 
     - name: Upload to S3
       run: aws s3 cp myapp-deployment.zip s3://$S3_BUCKET_NAME/ 
