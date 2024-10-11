@@ -67,6 +67,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: 'ap-northeast-1'
 
+    - name: Remove carriage return characters from scripts
+      run: |
+        sed -i 's/\r//g' scripts/*.sh
+
     - name: Zip files for deployment
       run: zip -r myapp-deployment.zip target/bank-0.0.1-SNAPSHOT.jar appspec.yml scripts/before_install.sh scripts/stop_application.sh scripts/delete_existing_file.sh 
 
