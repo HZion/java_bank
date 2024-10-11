@@ -21,13 +21,6 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/signup", "/user/login", "/user/signup").permitAll()
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(sessionManagement ->
-                        sessionManagement
-                                .sessionFixation(sessionFixation ->
-                                        sessionFixation.migrateSession()  // 세션 고정 보호: 세션을 새로 만듬
-                                )
-                )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/user/login")
@@ -42,8 +35,6 @@ public class SecurityConfig {
                 )
                 .csrf()
                 .disable();
-
-
 
         return http.build();
     }

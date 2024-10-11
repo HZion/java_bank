@@ -12,6 +12,8 @@ public interface AccountService {
     Account createAccount( String accountName, String bankName, AccountType accountType, BigDecimal balance);
     List<Account> getUserAccounts(User user);
     Account getAccountByNumber(String accountNumber);
+    Account getAccountByNumberBank(String accountNumber,String bank);
+    Account getAccountByID(Long id);
     void deposit(String accountNumber, BigDecimal amount);
     void withdraw(String accountNumber, BigDecimal amount);
 }

@@ -35,29 +35,30 @@
 
         <!-- Cards Section -->
         <section class="mb-6">
-            <div class="flex justify-between items-center mb-2">
-                <h2 class="font-bold">계좌 <span class="text-blue-500" th:text="${accounts.size()}">3</span></h2>
-                <div class="flex items-center">
-                    <span class="font-bold mr-2" th:text="${#numbers.formatDecimal(totalBalance, 0, 'COMMA', 0, 'POINT') + '원'}">3,475,504 원</span>
-                    <span class="text-xl">→</span>
-                </div>
-            </div>
             <div class="space-y-3" th:with="displayAccounts=${accounts.size() > 3 ? accounts.subList(0,3) : accounts}">
-                <div th:each="account, accountStat : ${displayAccounts}" class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center" th:text="${#strings.substring(account.bankName,0,1)}">T</div>
-                        <div>
-                            <p class="font-semibold">
-                                <span th:text="${account.accountName}">계좌명</span>
-                                <span class="text-sm text-gray-500" th:text="'(' + ${account.bankName} + ' ' + ${T(com.sion.bank.service.AccountServiceImple).convertToKorean(account.accountType)} + ')'"></span>
-                            </p>
-                            <p class="text-sm text-gray-500" th:text="${#numbers.formatDecimal(account.balance, 0, 'COMMA', 0, 'POINT') + '원'}">잔액</p>
-                        </div>
-                    </div>
-                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
+                <div th:each="account : ${displayAccounts}" class="flex items-center justify-between hover:bg-gray-100 rounded-lg transition duration-150 ease-in-out">
+                    <form th:action="@{/detailAccount}" method="post" class="flex-grow">
+                        <input type="hidden" name="id" th:value="${account.id}">
+                        <button type="submit" class="w-full text-left flex items-center p-3">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full mr-3 flex items-center justify-center" th:text="${#strings.substring(account.bankName,0,1)}">T</div>
+                            <div>
+                                <p class="font-semibold">
+                                    <span th:text="${account.accountName}">계좌명</span>
+                                    <span class="text-sm text-gray-500" th:text="'(' + ${account.bankName} + ' ' + ${T(com.sion.bank.service.AccountServiceImple).convertToKorean(account.accountType)} + ')'"></span>
+                                </p>
+                                <p class="text-sm text-gray-500" th:text="${#numbers.formatDecimal(account.balance, 0, 'COMMA', 0, 'POINT') + '원'}">잔액</p>
+                            </div>
+                        </button>
+                    </form>
+                    <form th:action="@{'/checkAccount'}" method="post" class="ml-2">
+                        <input type="hidden" name="id" th:value="${account.id}">
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-150 ease-in-out">
+                            송금
+                        </button>
+                    </form>
                 </div>
                 <div th:if="${accounts.size() > 3}" class="text-center text-sm text-blue-500">
-                    <a href="/accounts">더 보기</a>
+                    <a href="/">더 보기</a>
                 </div>
             </div>
         </section>
