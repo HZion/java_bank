@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
         <div class="flex items-center">
             <div class="w-10 h-10 bg-blue-500 rounded-full mr-3"></div>
             <div>
-                <h1 class="font-bold">김토스</h1>
+                <h1 class="font-bold" th:text="${username}">사용자명</h1>
                 <p class="text-sm text-gray-500">내 정보 보기</p>
             </div>
         </div>
@@ -32,101 +32,40 @@
         </button>
 
         <!-- Accounts Section -->
-        <section class="mb-6">
-            <div class="flex justify-between items-center mb-2">
-                <h2 class="font-bold">계좌 <span class="text-blue-500">3</span></h2>
-                <div class="flex items-center">
-                    <span class="font-bold mr-2">3,475,504 원</span>
-                    <span class="text-xl">→</span>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center">T</div>
-                        <div>
-                            <p class="font-semibold">토스뱅크 통장</p>
-                            <p class="text-sm text-gray-500">1,254,429 원</p>
-                        </div>
-                    </div>
-                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
-                </div>
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center">W</div>
-                        <div>
-                            <p class="font-semibold">우리은행 급여통장</p>
-                            <p class="text-sm text-gray-500">2,083,606 원</p>
-                        </div>
-                    </div>
-                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
-                </div>
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-gray-200 rounded-full mr-3 flex items-center justify-center">K</div>
-                        <div>
-                            <p class="font-semibold">KB국민은행 자유입출금</p>
-                            <p class="text-sm text-gray-500">137,469 원</p>
-                        </div>
-                    </div>
-                    <button class="px-3 py-1 bg-gray-100 rounded-full text-sm">송금</button>
-                </div>
-            </div>
-        </section>
 
         <!-- Cards Section -->
-        <section>
-            <div class="flex justify-between items-center mb-2">
-                <h2 class="font-bold">카드 <span class="text-blue-500">2</span></h2>
-                <div class="flex items-center">
-                    <span class="font-bold mr-2">1,487,275 원</span>
-                    <span class="text-xl">→</span>
+        <section class="mb-6">
+            <div class="space-y-3" th:with="displayAccounts=${accounts.size() > 3 ? accounts.subList(0,3) : accounts}">
+                <div th:each="account : ${displayAccounts}" class="flex items-center justify-between hover:bg-gray-100 rounded-lg transition duration-150 ease-in-out">
+                    <form th:action="@{/detailAccount}" method="post" class="flex-grow">
+                        <input type="hidden" name="id" th:value="${account.id}">
+                        <button type="submit" class="w-full text-left flex items-center p-3">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full mr-3 flex items-center justify-center" th:text="${#strings.substring(account.bankName,0,1)}">T</div>
+                            <div>
+                                <p class="font-semibold">
+                                    <span th:text="${account.accountName}">계좌명</span>
+                                    <span class="text-sm text-gray-500" th:text="'(' + ${account.bankName} + ' ' + ${T(com.sion.bank.service.AccountServiceImple).convertToKorean(account.accountType)} + ')'"></span>
+                                </p>
+                                <p class="text-sm text-gray-500" th:text="${#numbers.formatDecimal(account.balance, 0, 'COMMA', 0, 'POINT') + '원'}">잔액</p>
+                            </div>
+                        </button>
+                    </form>
+                    <form th:action="@{'/checkAccount'}" method="post" class="ml-2">
+                        <input type="hidden" name="id" th:value="${account.id}">
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-150 ease-in-out">
+                            송금
+                        </button>
+                    </form>
                 </div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-blue-500 rounded-full mr-3 flex items-center justify-center text-white">T</div>
-                        <div>
-                            <p class="font-semibold">토스카드</p>
-                            <p class="text-sm text-gray-500">573,600 원</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-gray-700 rounded-full mr-3 flex items-center justify-center text-white">S</div>
-                        <div>
-                            <p class="font-semibold">신한카드</p>
-                            <p class="text-sm text-gray-500">913,675 원</p>
-                        </div>
-                    </div>
+                <div th:if="${accounts.size() > 3}" class="text-center text-sm text-blue-500">
+                    <a href="/">더 보기</a>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t">
-        <div class="max-w-md mx-auto flex justify-between items-center p-4">
-            <button class="flex flex-col items-center">
-                <span class="text-2xl text-blue-500">🏠</span>
-                <span class="text-xs mt-1">홈</span>
-            </button>
-            <button class="flex flex-col items-center">
-                <span class="text-2xl">💳</span>
-                <span class="text-xs mt-1">내 소비</span>
-            </button>
-            <button class="flex flex-col items-center">
-                <span class="text-2xl">➕</span>
-                <span class="text-xs mt-1">보내기</span>
-            </button>
-            <button class="flex flex-col items-center">
-                <span class="text-2xl">☰</span>
-                <span class="text-xs mt-1">전체</span>
-            </button>
-        </div>
-    </footer>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>
