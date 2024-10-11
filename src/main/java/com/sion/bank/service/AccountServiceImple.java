@@ -11,8 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImple implements AccountService {
@@ -63,12 +65,42 @@ public class AccountServiceImple implements AccountService {
         return accountRepository.findByUserAndIsActiveTrue(user);
     }
 
+    public Account getAccountByID(Long id){
+        try {
+            return accountRepository.findById(id)
+                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + id));
+        } catch (AccountNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @Override
     public Account getAccountByNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
     }
+    @Override
+    public Account getAccountByNumberBank(String accountNumber,String bank){
 
+        try {
+            // 계좌를 찾음
+            Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
+
+            // 은행명이 일치하는지 확인
+            if (account.isPresent() && account.get().getBankName().equals(bank)) {
+                return account.orElse(null); // 일치하는 경우 계좌 반환
+            } else {
+                // 은행명이 일치하지 않거나 계좌가 없는 경우
+                throw new RuntimeException("Account not found or bank name mismatch");
+            }
+        } catch (Exception e) {
+            // 예외 처리 (로그 또는 추가 작업 가능)
+            throw new RuntimeException("Account not found");
+        }
+
+
+    }
     @Override
     @Transactional
     public void deposit(String accountNumber, BigDecimal amount) {
