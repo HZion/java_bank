@@ -1,6 +1,9 @@
 package com.sion.bank.controller;
 
+import com.sion.bank.model.Account;
+import com.sion.bank.service.AccountService;
 import com.sion.bank.service.UserServiceImple;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -9,45 +12,57 @@ import com.sion.bank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import java.util.List;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final AccountService accountService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AccountService accountService, HttpSession session) {
         this.userService = userService;
+        this.accountService = accountService;
 
     }
 
-    @PostMapping("/user/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model) {
 
+    @PostMapping("/user/login")
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        Model model,
+                        HttpSession session) {
         try {
             User user = userService.loginUser(username, password);
-            System.out.println("print");
-            System.out.println(user.getUsername());
-            // 로그인 성공 시 세션에 사용자 정보 저장
-            // session.setAttribute("user", user);
+            
+//            세션이용시
+//            List<Account> accounts = accountService.getUserAccounts(user);
+//            session.setAttribute("user", user);
+//            session.setAttribute("accounts", accounts);
+
             return "redirect:/home";  // 홈 페이지로 리다이렉트
         } catch (RuntimeException e) {
-
             model.addAttribute("error", "Invalid username or password");
             return "login";  // 로그인 페이지로 다시 이동
         }
     }
 
-
     @PostMapping("/user/signup")
-    public String signUp(@RequestParam String username, @RequestParam String password, Model model) {
+    public String signUp(
+            @RequestParam String username,
+            @RequestParam String password,
+            Model model) {
         logger.info("User registration Controler started for: {}", username);
         try {
 

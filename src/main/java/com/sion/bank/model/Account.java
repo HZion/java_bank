@@ -2,20 +2,19 @@ package com.sion.bank.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import com.sion.bank.model.AccountType;
+
 @Entity
 @Table(name = "accounts")
 public class Account {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // User 엔티티와 다대일 관계 설정, 외래 키는 'user_id'
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false)  // 'user_id'가 외래 키가 됨
+    private User user;  // User 엔티티 참조
 
     @Column(name = "account_number", unique = true, nullable = false)
     private String accountNumber;
@@ -45,12 +44,10 @@ public class Account {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Constructors, getters, and setters
-
-
+    // 생성자
     public Account(Long id, User user, String accountNumber, String accountName, String bankName, AccountType accountType, BigDecimal balance, String currency, boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.user = user;
+        this.user = user;  // User를 설정
         this.accountNumber = accountNumber;
         this.accountName = accountName;
         this.bankName = bankName;
@@ -62,10 +59,9 @@ public class Account {
         this.updatedAt = updatedAt;
     }
 
-    public Account() {
+    public Account() {}
 
-    }
-
+    // Getter 및 Setter
     public Long getId() {
         return id;
     }
@@ -171,5 +167,3 @@ public class Account {
         updatedAt = LocalDateTime.now();
     }
 }
-
-// AccountType enum

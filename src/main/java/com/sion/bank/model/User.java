@@ -30,7 +30,6 @@ public class User implements UserDetails {
     private String roles;
 
 
-
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -100,7 +99,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(() -> this.roles);
     }
 
     public String getPassword() {
