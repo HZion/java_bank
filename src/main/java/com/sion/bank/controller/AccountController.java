@@ -56,13 +56,11 @@ public class AccountController {
 
     @PostMapping("/detailAccount")
     public String showAccountDetail(@RequestParam("id") Long id, Model model) {
-        System.out.println("계좌id:" + id);
         Account account = accountService.getAccountByID(id);
-        List<Transaction> transactions = transactionService.findAllTransactionsByAccountId(id);
+        List<Transaction> transactions = transactionService.findAllRelevantTransactionsByAccountId(id);
 
         model.addAttribute("account", account);
         model.addAttribute("transactions", transactions);
-
 
         return "detailAccount";
     }

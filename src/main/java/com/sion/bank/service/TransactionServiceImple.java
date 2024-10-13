@@ -24,7 +24,7 @@ public class TransactionServiceImple implements TransactionService {
 
 
     @Transactional
-    public Transaction createTransaction(Long fromAccountID, Long toAccountID, BigDecimal amount, TransactionType transactionType) {
+    public void  createTransaction(Long fromAccountID, Long toAccountID, BigDecimal amount, TransactionType transactionType) {
         // 입금 계좌(B)
         Account toAccount = accountRepository.findById(toAccountID)
                 .orElseThrow(() -> new RuntimeException("Destination account not found"));
@@ -51,22 +51,25 @@ public class TransactionServiceImple implements TransactionService {
         Transaction transaction = new Transaction();
         transaction.setFromAccount(fromAccount);
         transaction.setToAccount(toAccount);
-        transaction.setTransactionType(transactionType);
+        transaction.setTransactionType(transactionType); //TRANSFER로 고정 됨
         transaction.setAmount(amount);
         transaction.setTransactionDate(LocalDateTime.now());
-
-
         transaction.setBalanceAfterTransaction(fromAccountBalance);
+        transaction.setFromAccountBalanceAfter(fromAccountBalance);
+        transaction.setToAccountBalanceAfter(toAccountBalance);
 
-        // 트랜잭션 저장
-        return transactionRepository.save(transaction);
+        transactionRepository.save(transaction);
+
+
     }
 
-
-    public List<Transaction> findAllTransactionsByAccountId(Long fromAccountID) {
-        // 해당 계좌의 모든 거래 내역을 최근순으로 반환
-        return transactionRepository.findAllTransactionsByFromAccountId(fromAccountID);
+    public List<Transaction> findAllRelevantTransactionsByAccountId(Long accountId) {
+        return transactionRepository.findAllRelevantTransactionsByAccountId(accountId);
     }
+//    public List<Transaction> findAllTransactionsByAccountId(Long fromAccountID) {
+//        // 해당 계좌의 모든 거래 내역을 최근순으로 반환
+//        return transactionRepository.findAllTransactionsByFromAccountId(fromAccountID);
+//    }
 
     public Transaction getTransactionById(Long transactionId) {
         return transactionRepository.findById(transactionId)
