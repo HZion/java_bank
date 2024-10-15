@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   selector:
-    istio: ingressgateway # Istio의 IngressGateway 사용
+    istio: ingressgateway # Istio의 IngressGateway 사용함
   servers:
   - port:
       number: 80
