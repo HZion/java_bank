@@ -41,24 +41,10 @@ jobs:
         run: |
           docker build -t $DOCKER_IMAGE .
 
-      - name: Configure kubectl
-        run: |
-          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-          kubectl --kubeconfig=kubeconfig.yaml get nodes
-
-      - name: Output kubeconfig content
-        run: cat kubeconfig.yaml
-
       - name: Install Argo CD CLI
         run: |
-          if curl -sSL https://argoproj.github.io/argo-cd/keys/argocd.asc | gpg --dearmor -o /usr/share/keyrings/argocd-archive-keyring.gpg; then
-            echo "GPG key added successfully."
-          else
-            echo "Failed to add GPG key."
-            exit 1
-          fi
-          echo "deb [signed-by=/usr/share/keyrings/argocd-archive-keyring.gpg] https://argoproj.github.io/argo-cd/apt/ stable main" | sudo tee /etc/apt/sources.list.d/argocd.list
-          sudo apt-get update && sudo apt-get install argocd
+          curl -sSL https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -o argocd
+          sudo install -m 755 argocd /usr/local/bin/argocd
 
       - name: Update Argo CD application
         run: |
