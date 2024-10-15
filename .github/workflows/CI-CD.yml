@@ -49,6 +49,12 @@ jobs:
       - name: Output kubeconfig content
         run: cat kubeconfig.yaml
 
+      - name: Install Argo CD CLI
+        run: |
+          curl -sSL https://argoproj.github.io/argo-cd/keys/argocd.asc | gpg --dearmor -o /usr/share/keyrings/argocd-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/argocd-archive-keyring.gpg] https://argoproj.github.io/argo-cd/apt/ stable main" | sudo tee /etc/apt/sources.list.d/argocd.list
+          sudo apt-get update && sudo apt-get install argocd
+
       - name: Update Argo CD application
         run: |
           argocd login a2448034a5e1f4ff796af814926572ff-1664569724.ap-northeast-1.elb.amazonaws.com --username admin --password ${{ secrets.ARGOCD_PASSWORD }}
