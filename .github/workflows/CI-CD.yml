@@ -1,0 +1,86 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      deployments: write
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      DOCKER_IMAGE: insav/gugu-bank:latest
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Build Docker image
+        run: |
+          docker build -t $DOCKER_IMAGE .
+
+      - name: Install kops
+        run: |
+          curl -Lo kops https://github.com/kubernetes/kops/releases/latest/download/kops-linux-amd64
+          chmod +x ./kops
+          sudo mv ./kops /usr/local/bin/
+
+      - name: Check kops installation
+        run: |
+          kops version
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set default.region ap-northeast-1
+
+      - name: Export kubeconfig
+        run: |
+          if ! kops export kubecfg --admin --name gu9duck.lion2.nyhhs.com --state s3://gu9duck.lion2.nyhhs.com; then
+            echo "Failed to export kubeconfig"
+            exit 1
+          fi
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          kubectl --kubeconfig=kubeconfig.yaml get nodes
+
+      - name: Output kubeconfig content
+        run: cat kubeconfig.yaml
+
+      - name: Update Argo CD application
+        run: |
+          argocd login a2448034a5e1f4ff796af814926572ff-1664569724.ap-northeast-1.elb.amazonaws.com --username admin --password ${{ secrets.ARGOCD_PASSWORD }}
+          argocd app sync gu9duck-bank
+          argocd app wait gu9duck-bank --timeout 120
