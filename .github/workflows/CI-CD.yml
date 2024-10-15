@@ -23,8 +23,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       DOCKER_IMAGE: insav/gugu-bank:latest
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
       - name: Checkout Code
@@ -42,34 +40,6 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t $DOCKER_IMAGE .
-
-      - name: Install kops
-        run: |
-          curl -Lo kops https://github.com/kubernetes/kops/releases/latest/download/kops-linux-amd64
-          chmod +x ./kops
-          sudo mv ./kops /usr/local/bin/
-
-      - name: Check kops installation
-        run: |
-          kops version
-
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          aws configure set default.region ap-northeast-1
-
-      - name: Export kubeconfig
-        run: |
-          if ! kops export kubecfg --admin --name gu9duck.lion2.nyhhs.com --state  s3://gu9duck.lion2.nyhhs.com; then
-            echo "Failed to export kubeconfig"
-            exit 1
-          fi
 
       - name: Configure kubectl
         run: |

@@ -5,15 +5,15 @@ metadata:
   namespace: your-namespace
 spec:
   hosts:
-  - "*"  # 또는 도메인 이름을 지정할 수 있습니다.
+    - "*" # 또는 도메인 이름을 지정할 수 있습니다.
   gateways:
-  - argocd-gateway
+    - argocd-gateway
   http:
-  - match:
-    - uri:
-        prefix: /login
-    route:
-    - destination:
-        host: gugu-bank-service
-        port:
-          number: 80
+    - match:
+        - uri:
+            prefix: /login
+      route:
+        - destination:
+            host: gugu-bank-service
+            port:
+              number: 80
