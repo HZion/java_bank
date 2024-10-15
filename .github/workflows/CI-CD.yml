@@ -51,8 +51,8 @@ jobs:
 
       - name: Install Argo CD CLI
         run: |
-          echo "deb https://argoproj.github.io/argo-cd/apt/ stable main" | sudo tee /etc/apt/sources.list.d/argocd.list
-          sudo apt-get update && sudo apt-get install argocd
+          curl -sSL https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -o argocd
+          sudo install -m 0755 argocd /usr/local/bin/argocd
 
       - name: Update Argo CD application
         run: |
