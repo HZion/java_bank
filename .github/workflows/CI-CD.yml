@@ -66,7 +66,7 @@ jobs:
 
       - name: Export kubeconfig
         run: |
-          if ! kops export kubecfg --admin --name gu9duck.lion2.nyhhs.com --state s3://gu9duck.lion2.nyhhs.com; then
+          if ! kops export kubecfg --admin --name gu9duck.lion2.nyhhs.com --state  s3://gu9duck.lion2.nyhhs.com; then
             echo "Failed to export kubeconfig"
             exit 1
           fi
