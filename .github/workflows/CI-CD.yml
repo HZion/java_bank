@@ -51,13 +51,7 @@ jobs:
 
       - name: Install Argo CD CLI
         run: |
-          if curl -sSL https://argoproj.github.io/argo-cd/keys/argocd.asc | gpg --dearmor -o /usr/share/keyrings/argocd-archive-keyring.gpg; then
-            echo "GPG key added successfully."
-          else
-            echo "Failed to add GPG key."
-            exit 1
-          fi
-          echo "deb [signed-by=/usr/share/keyrings/argocd-archive-keyring.gpg] https://argoproj.github.io/argo-cd/apt/ stable main" | sudo tee /etc/apt/sources.list.d/argocd.list
+          echo "deb https://argoproj.github.io/argo-cd/apt/ stable main" | sudo tee /etc/apt/sources.list.d/argocd.list
           sudo apt-get update && sudo apt-get install argocd
 
       - name: Update Argo CD application
