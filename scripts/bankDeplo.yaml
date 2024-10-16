@@ -24,4 +24,4 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               value: root # MySQL 사용자 이름
             - name: SPRING_DATASOURCE_PASSWORD
-              value: Gu9duck # MySQL 비밀번호
+              value: Gu9duck # MySQL 비밀번호1
