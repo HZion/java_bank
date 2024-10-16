@@ -4,7 +4,7 @@ metadata:
   name: gugu-bank-deployment
   namespace: gu9duck
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: gugu-bank
@@ -15,13 +15,17 @@ spec:
     spec:
       containers:
         - name: gugu-bank-container
-          image: insav/gugu-bank:13
+          image: insav/gugu-bank:3
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://172.30.1.87:30879/mydatabase # MySQL 서비스와 연결
-            - name: SPRING_DATASOURCE_USERNAME
-              value: root # MySQL 사용자 이름
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: Gu9duck # MySQL 비밀번호
+            - name: DB_HOST
+              value: "gu9duck.cbmgicamgfgg.ap-northeast-1.rds.amazonaws.com" # RDS 호스트 이름
+            - name: DB_PORT
+              value: "3306" # MySQL 포트
+            - name: DB_USER
+              value: "admin" # MySQL 사용자 이름
+            - name: DB_PASSWORD
+              value: "guguduck" # MySQL 비밀번호
+            - name: DB_NAME
+              value: "gu9duck" # 데이터베이스 이름
