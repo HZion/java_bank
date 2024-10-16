@@ -22,9 +22,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: "ap-northeast-1"
       DOCKER_IMAGE: insav/gugu-bank:latest
 
     steps:
@@ -44,26 +41,10 @@ jobs:
         run: |
           docker build -t $DOCKER_IMAGE .
 
-      - name: Install AWS CLI
+      - name: Configure kubectl
         run: |
-          sudo apt-get install -y awscli
-
-      - name: Configure AWS Credentials
-        run: |
-          echo "[default]" > ~/.aws/config
-          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
-          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
-
-      - name: Install kops
-        run: |
-          curl -LO https://github.com/kubernetes/kops/releases/latest/download/kops-linux-amd64
-          chmod +x kops-linux-amd64
-          sudo mv kops-linux-amd64 /usr/local/bin/kops
-
-      - name: Set up kubectl
-        run: |
-          kops export kubecfg --admin --name gu9duck.lion2.nyhhs.com --state s3://gu9duck.lion2.nyhhs.com --kubeconfig ./kubeconfig.yaml
-          kubectl --kubeconfig=./kubeconfig.yaml get nodes
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          kubectl --kubeconfig=kubeconfig.yaml get nodes
 
       - name: Output kubeconfig content
         run: cat kubeconfig.yaml
