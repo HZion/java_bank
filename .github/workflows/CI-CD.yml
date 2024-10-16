@@ -41,10 +41,10 @@ jobs:
         run: |
           docker build -t $DOCKER_IMAGE .
 
-      - name: Configure kubectl
+      - name: Set up kubectl
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-          kubectl --kubeconfig=kubeconfig.yaml get nodes
+          kops export kubecfg --admin --name gu9duck.lion2.nyhhs.com --state s3://gu9duck.lion2.nyhhs.com --kubeconfig ./kubeconfig.yaml
+          kubectl --kubeconfig=./kubeconfig.yaml get nodes
 
       - name: Output kubeconfig content
         run: cat kubeconfig.yaml
