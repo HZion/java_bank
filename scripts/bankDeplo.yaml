@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: gugu-bank-container
-          image: insav/gugu-bank:13
+          image: insav/gugu-bank:latest
           ports:
             - containerPort: 8080
           env:

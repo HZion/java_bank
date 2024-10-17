@@ -21,7 +21,6 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       DOCKER_IMAGE: insav/gugu-bank:latest
 
     steps:
@@ -38,16 +37,13 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Build Docker image
-        run: |
-          docker build -t $DOCKER_IMAGE .
+        run: docker build -t $DOCKER_IMAGE .
 
-      - name: Configure kubectl
-        run: |
-          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-          kubectl --kubeconfig=kubeconfig.yaml get nodes
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
-      - name: Output kubeconfig content
-        run: cat kubeconfig.yaml
+      - name: Push Docker image to Docker Hub
+        run: docker push $DOCKER_IMAGE
 
       - name: Install Argo CD CLI
         run: |
