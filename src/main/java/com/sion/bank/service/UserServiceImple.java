@@ -3,6 +3,7 @@ package com.sion.bank.service;
 import com.sion.bank.model.User;
 import com.sion.bank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Optional;
 
 @Service
+
 public class UserServiceImple implements UserService, UserDetailsService  {
 
     @Autowired

@@ -9,11 +9,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface AccountService {
-    Account createAccount( String accountName, String bankName, AccountType accountType, BigDecimal balance);
+    void createAccount( String accountName, String bankName, AccountType accountType, BigDecimal balance, String seesionID);
     List<Account> getUserAccounts(User user);
     Account getAccountByNumber(String accountNumber);
     Account getAccountByNumberBank(String accountNumber,String bank);
     Account getAccountByID(Long id);
+    List<Account> getAccountsByUserId(Long userId);
     void deposit(String accountNumber, BigDecimal amount);
     void withdraw(String accountNumber, BigDecimal amount);
+
 }

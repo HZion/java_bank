@@ -1,12 +1,16 @@
 package com.sion.bank.model;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction  implements Serializable {
+
+    private static final long serialVersionUID = 1L;  // 직렬화 버전 ID 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
