@@ -4,12 +4,21 @@ import com.sion.bank.model.*;
 import com.sion.bank.service.AccountService;
 import com.sion.bank.service.TransactionService;
 import com.sion.bank.service.UserService;
+<<<<<<< HEAD
 import com.sion.bank.service.redisService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,6 +37,7 @@ public class AccountController {
     @Autowired
     private TransactionService transactionService;
 
+<<<<<<< HEAD
     @Autowired
     private redisService redis;
 
@@ -35,6 +45,8 @@ public class AccountController {
     private RedisTemplate<String, Object> redisTemplate;
 
 
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
     @PostMapping("/account")
     public String createAccount(
             @RequestParam("accountName") String accountName,
@@ -125,6 +137,7 @@ public class AccountController {
         model.addAttribute("amount",amount);
         return "resultTransaction";
     }
+<<<<<<< HEAD
     @PostMapping("/allAccount")
     public String allAccount(HttpSession session, Model model){
         String sessionId = session.getId();
@@ -142,4 +155,7 @@ public class AccountController {
         model.addAttribute("totalBalance", totalBalance);
         return "allAccount";
     }
+=======
+
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 }

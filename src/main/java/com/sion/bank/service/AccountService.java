@@ -14,7 +14,10 @@ public interface AccountService {
     Account getAccountByNumber(String accountNumber);
     Account getAccountByNumberBank(String accountNumber,String bank);
     Account getAccountByID(Long id);
+<<<<<<< HEAD
     List<Account> getAccountsByUserId(Long userId);
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
     void deposit(String accountNumber, BigDecimal amount);
     void withdraw(String accountNumber, BigDecimal amount);
 

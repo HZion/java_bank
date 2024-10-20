@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/signup", "/user/login", "/user/signup").permitAll()
                         .anyRequest().authenticated()
                 )
+<<<<<<< HEAD
 //                .formLogin(form -> form
 //                        .loginPage("/login")//
 //                        .loginProcessingUrl("/user/login")
@@ -35,6 +36,8 @@ public class SecurityConfig {
 //                        .failureUrl("/login?error")
 //                        .permitAll()
 //                )
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
                 .formLogin(form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/user/login")
@@ -50,9 +53,12 @@ public class SecurityConfig {
                 .csrf()
                     .disable()
 
+<<<<<<< HEAD
         ;
 
 
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
         return http.build();
     }
 
@@ -60,5 +66,8 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 }
