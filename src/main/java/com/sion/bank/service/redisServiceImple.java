@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class redisServiceImple implements redisService {
@@ -81,7 +82,6 @@ public class redisServiceImple implements redisService {
     }
 
     public  void setRedisAccountsByUser(String sessionId ,String userId, List<Account> accounts) {
-``
 
         for (Account account : accounts) {
             String accountKey = sessionId + ":"+ userId+ ":" + account.getId(); // 고유한 키 생성
@@ -94,6 +94,7 @@ public class redisServiceImple implements redisService {
             redisTemplate.opsForHash().put(accountKey, "balance", account.getBalance().toString());
             redisTemplate.opsForHash().put(accountKey, "currency", account.getCurrency());
             redisTemplate.opsForHash().put(accountKey, "isActive", String.valueOf(account.isActive()));
+            redisTemplate.expire(accountKey, 10, TimeUnit.MINUTES);
         }
     }
 

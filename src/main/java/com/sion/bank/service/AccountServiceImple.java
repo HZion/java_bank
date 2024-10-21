@@ -78,15 +78,9 @@ public class AccountServiceImple implements AccountService {
         return accountRepository.findByUserIdAndIsActiveTrue(userId);
     }
 
-    public Account getAccountByID(Long id){
-        try {
-            return accountRepository.findById(id)
-                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + id));
-        } catch (AccountNotFoundException e) {
-            throw new RuntimeException(e);
-        }
 
-    }
+
+
 
     public Account getAccountByID(Long id){
         try {
@@ -121,13 +115,7 @@ public class AccountServiceImple implements AccountService {
             // 예외 처리 (로그 또는 추가 작업 가능)
             throw new RuntimeException("Account not found");
         }
-<<<<<<< HEAD
 
-
-=======
-
-
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
     }
     @Override
     @Transactional
