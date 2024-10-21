@@ -1,18 +1,14 @@
 package com.sion.bank.controller;
 
 import com.sion.bank.model.Account;
-import com.sion.bank.model.AccountType;
+
 import com.sion.bank.model.User;
 import com.sion.bank.service.AccountService;
 import com.sion.bank.service.UserService;
-<<<<<<< HEAD
-//import com.sion.bank.service.redisService;
+
 import com.sion.bank.service.redisServiceImple;
 import jakarta.servlet.http.HttpSession;
-=======
-import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transaction;
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
@@ -22,18 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-<<<<<<< HEAD
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-=======
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
+
 import java.util.List;
-import java.util.Map;
 
 @Controller
 
@@ -58,15 +46,16 @@ public class RouterController {
         return "login";
     }
 
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/home"; // /home으로 리다이렉트
+    }
+
     @GetMapping("/home")
     public String index(HttpSession session, Model model) {
-<<<<<<< HEAD
 
+       // 현재 인증된 사용자 정보를 가져옴
 
-=======
-        System.out.println("index");
-        // 현재 인증된 사용자 정보를 가져옴
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         String sessionId = session.getId();
@@ -124,7 +113,6 @@ public class RouterController {
 //                .orElse("ROLE_USER");  // 권한이 없으면 기본 권한 설정
 //        redis.getAccountsForUser()
 
-<<<<<<< HEAD
         // 기존방식 1
 //        User user = userService.getUserByUsername(username);
 //        List<Account> accounts = accountService.getUserAccounts(user);
@@ -145,28 +133,28 @@ public class RouterController {
 //        model.addAttribute("username", username);
 //        model.addAttribute("accounts", accounts);
 //        model.addAttribute("totalBalance", totalBalance);
-=======
+
         // 세션에서 'user' 객체를 가져옴
-        User user = userService.getUserByUsername(username);
-        List<Account> accounts = accountService.getUserAccounts(user);
+//        User user = userService.getUserByUsername(username);
+//        List<Account> accounts = accountService.getUserAccounts(user);
+//
+//        session.setAttribute("user", user);
+//        session.setAttribute("accounts", accounts);
+//        User a = (User) session.getAttribute("user");
+//        List<Account> b = (List<Account>) session.getAttribute("accounts");
+//
+//        System.out.println(a);
+//        System.out.println(b);
+//
+//        BigDecimal totalBalance = accounts.stream()
+//                .map(Account::getBalance)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        // 모델에 사용자 및 계좌 정보 추가
+//        model.addAttribute("username", username);
+//        model.addAttribute("accounts", accounts);
+//        model.addAttribute("totalBalance", totalBalance);
 
-        session.setAttribute("user", user);
-        session.setAttribute("accounts", accounts);
-        User a = (User) session.getAttribute("user");
-        List<Account> b = (List<Account>) session.getAttribute("accounts");
-
-        System.out.println(a);
-        System.out.println(b);
-
-        BigDecimal totalBalance = accounts.stream()
-                .map(Account::getBalance)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        // 모델에 사용자 및 계좌 정보 추가
-        model.addAttribute("username", username);
-        model.addAttribute("accounts", accounts);
-        model.addAttribute("totalBalance", totalBalance);
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 
         return "home";
     }
@@ -206,23 +194,19 @@ public class RouterController {
         return "all-functions";
     }
 
-<<<<<<< HEAD
+
     @PostMapping("/all-functions")
     public String allFunctions_post(Model model) {
         return "all-functions";
     }
 
 
-=======
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
+
     @GetMapping("/account")
     public String makeAccount(Model model) {
         return  "account";
     }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 }
