@@ -10,7 +10,8 @@ COPY target/bank-0.0.1-SNAPSHOT.jar /app.jar
 ENV SPRING_DATASOURCE_URL=jdbc:mysql://gu9duck.cbmgicamgfgg.ap-northeast-1.rds.amazonaws.com:3306/bank
 ENV SPRING_DATASOURCE_USERNAME=admin
 ENV SPRING_DATASOURCE_PASSWORD=guguduck
-
+ENV REDIS_HOST=localhost
+ENV REDIS_PORT=6379
 
 # 4. 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "/app.jar"]
