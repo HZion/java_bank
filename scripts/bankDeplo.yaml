@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app: gugu-bank
+      annotations:
+        sidecar.istio.io/inject: "true"  
     spec:
       containers:
         - name: gugu-bank-container
@@ -20,7 +22,7 @@ spec:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://172.30.1.87:30879/mydatabase # MySQL 서비스와 연결
+              value: "jdbc:mysql://mysql.guguduck.svc.cluster.local:3306/mydatabase"
             - name: SPRING_DATASOURCE_USERNAME
               value: root # MySQL 사용자 이름
             - name: SPRING_DATASOURCE_PASSWORD
