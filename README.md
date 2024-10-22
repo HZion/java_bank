@@ -2,6 +2,7 @@
 redis 6379
 
 쿠버 배포시
+```
 env:
   - name: SPRING_DATASOURCE_URL
     value: #sql 주소
@@ -20,3 +21,4 @@ env:
         key: redis-password
 ports:
   - containerPort: 8080  # gugu-bank 애플리케이션 포트
+```
