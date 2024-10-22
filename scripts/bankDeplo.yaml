@@ -24,4 +24,13 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               value: root # MySQL 사용자 이름
             - name: SPRING_DATASOURCE_PASSWORD
-              value: Gu9duck # MySQL 비밀번호1
+              value: Gu9duck # MySQL 비밀번호
+            - name: REDIS_HOST
+              value: "my-redis-master.gu9duck.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-redis
+                  key: redis-password
