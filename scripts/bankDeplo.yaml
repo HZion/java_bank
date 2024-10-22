@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gugu-bank-deployment
+  namespace: gu9duck
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gugu-bank
+  template:
+    metadata:
+      labels:
+        app: gugu-bank
+    spec:
+      containers:
+        - name: gugu-bank-container
+          image: sungue/gugu-bank:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://172.30.1.87:30879/mydatabase # MySQL 서비스와 연결
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root # MySQL 사용자 이름
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: Gu9duck # MySQL 비밀번호
+            - name: REDIS_HOST
+              value: "my-redis-master.gu9duck.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: my-redis
+                  key: redis-password
