@@ -41,11 +41,6 @@ public class Account implements Serializable {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     // 생성자
     public Account(Long id, User user, String accountNumber, String accountName, String bankName, AccountType accountType, BigDecimal balance, String currency, boolean isActive) {
