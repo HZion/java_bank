@@ -4,10 +4,17 @@ import com.sion.bank.model.*;
 import com.sion.bank.service.AccountService;
 import com.sion.bank.service.TransactionService;
 import com.sion.bank.service.UserService;
+<<<<<<< HEAD
+import com.sion.bank.service.redisService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +37,25 @@ public class AccountController {
     @Autowired
     private TransactionService transactionService;
 
+<<<<<<< HEAD
+    @Autowired
+    private redisService redis;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
     @PostMapping("/account")
     public String createAccount(
             @RequestParam("accountName") String accountName,
             @RequestParam("bankName") String bankName,
             @RequestParam("accountType") AccountType accountType,
             @RequestParam(value = "initialBalance", defaultValue = "0.00") BigDecimal initialBalance,
-            Model model) {
+            Model model,
+            HttpSession session
+            ) {
 
 
         try{
@@ -44,7 +63,8 @@ public class AccountController {
                     accountName,
                     bankName,
                     accountType,
-                    initialBalance);
+                    initialBalance,
+                    session.getId());
 
             return "redirect:/home";  // 계좌 생성 후 리다이렉트
         }catch ( Exception e ) {
@@ -56,13 +76,11 @@ public class AccountController {
 
     @PostMapping("/detailAccount")
     public String showAccountDetail(@RequestParam("id") Long id, Model model) {
-        System.out.println("계좌id:" + id);
         Account account = accountService.getAccountByID(id);
-        List<Transaction> transactions = transactionService.findAllTransactionsByAccountId(id);
+        List<Transaction> transactions = transactionService.findAllRelevantTransactionsByAccountId(id);
 
         model.addAttribute("account", account);
         model.addAttribute("transactions", transactions);
-
 
         return "detailAccount";
     }
@@ -119,5 +137,25 @@ public class AccountController {
         model.addAttribute("amount",amount);
         return "resultTransaction";
     }
+<<<<<<< HEAD
+    @PostMapping("/allAccount")
+    public String allAccount(HttpSession session, Model model){
+        String sessionId = session.getId();
 
+        // redis를 세션으로 이용한경우
+        int userId = (int) redisTemplate.opsForHash().get(sessionId, "userId");
+
+        List<Account> accounts = redis.getRedisAccountsByUser(sessionId, String.valueOf(userId));
+
+        BigDecimal totalBalance = accounts.stream()
+                .map(Account::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("totalBalance", totalBalance);
+        return "allAccount";
+    }
+=======
+
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 }

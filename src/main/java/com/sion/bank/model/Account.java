@@ -1,11 +1,14 @@
 package com.sion.bank.model;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "accounts")
-public class Account {
+public class Account implements Serializable {
+    private static final long serialVersionUID = 1L;  // 직렬화 버전 ID 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +25,7 @@ public class Account {
     @Column(name = "account_name", nullable = false)
     private String accountName;
 
-    @Column(name = "bank_name", nullable = false)
+    @Column(name = "bank_name", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4")
     private String bankName;
 
     @Enumerated(EnumType.STRING)
@@ -45,7 +48,7 @@ public class Account {
     private LocalDateTime updatedAt;
 
     // 생성자
-    public Account(Long id, User user, String accountNumber, String accountName, String bankName, AccountType accountType, BigDecimal balance, String currency, boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Account(Long id, User user, String accountNumber, String accountName, String bankName, AccountType accountType, BigDecimal balance, String currency, boolean isActive) {
         this.id = id;
         this.user = user;  // User를 설정
         this.accountNumber = accountNumber;
@@ -55,8 +58,7 @@ public class Account {
         this.balance = balance;
         this.currency = currency;
         this.isActive = isActive;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+//
     }
 
     public Account() {}
@@ -134,25 +136,11 @@ public class Account {
         isActive = active;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
         if (currency == null) {
             currency = "KRW";
         }
@@ -162,8 +150,5 @@ public class Account {
         isActive = true;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+
 }

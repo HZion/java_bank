@@ -1,24 +1,39 @@
 package com.sion.bank.controller;
 
 import com.sion.bank.model.Account;
+import com.sion.bank.model.AccountType;
 import com.sion.bank.model.User;
 import com.sion.bank.service.AccountService;
 import com.sion.bank.service.UserService;
+<<<<<<< HEAD
+//import com.sion.bank.service.redisService;
+import com.sion.bank.service.redisServiceImple;
+import jakarta.servlet.http.HttpSession;
+=======
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transaction;
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+<<<<<<< HEAD
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+=======
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -28,6 +43,15 @@ public class RouterController {
     private UserService userService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private redisServiceImple redis;
+
+    private List<Account> accounts = null;
+
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
 
     @GetMapping("/login")
     public String login() {
@@ -36,12 +60,59 @@ public class RouterController {
 
     @GetMapping("/home")
     public String index(HttpSession session, Model model) {
+<<<<<<< HEAD
+
+
+=======
         System.out.println("index");
         // 현재 인증된 사용자 정보를 가져옴
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // 사용자의 ID(username) 가져오기
         String username = authentication.getName();
+        String sessionId = session.getId();
+
+        // redis를 세션으로 이용한경우
+        int userId = (int) redisTemplate.opsForHash().get(sessionId, "userId");
+
+        System.out.println("세션에서 가져올까요?");
+        System.out.println("유저ID:"+userId);
+
+        // 1. redis에서 계좌정보가 있는지 확인
+        accounts = redis.getRedisAccountsByUser(sessionId, String.valueOf(userId));
+
+        if (accounts == null) {
+            accounts = new ArrayList<>();
+        }
+
+        if (accounts == null ||accounts.isEmpty()) {
+            //2. redis에 계좌 정보가 없는경우
+
+            System.out.println("DB에서 계좌 정보 가져오는 중...");
+            //
+            //2.1. DB에서 유저id를 기반으로  계좌 정보 가져오기
+            accounts = accountService.getAccountsByUserId((long) userId);
+
+            // 2.2 Redis에 sessionId:userId:accountId 로 계좌 정보 저장
+            redis.setRedisAccountsByUser(sessionId,String.valueOf(userId),accounts);
+
+        } else {       // DB에서 유저 정보 가져오기
+            //3 redis에 계좌 정보가 있는경우
+            System.out.println("Redis에서 계좌 정보 가져오기...");
+            accounts.clear();
+            accounts = accountService.getAccountsByUserId((long) userId);
+
+
+        }
+
+        BigDecimal totalBalance = accounts.stream()
+                .map(Account::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+        // 모델에 사용자 및 계좌 정보 추가
+        model.addAttribute("username", username);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("totalBalance", totalBalance);
+        // 사용자의 ID(username) 가져오기
 //        Object principal = authentication.getPrincipal();
 //        if (principal instanceof User) {
 //            Long userId = ((User) principal).getId();
@@ -51,7 +122,30 @@ public class RouterController {
 //        String role = authorities.stream().findFirst()
 //                .map(GrantedAuthority::getAuthority)
 //                .orElse("ROLE_USER");  // 권한이 없으면 기본 권한 설정
+//        redis.getAccountsForUser()
 
+<<<<<<< HEAD
+        // 기존방식 1
+//        User user = userService.getUserByUsername(username);
+//        List<Account> accounts = accountService.getUserAccounts(user);
+//
+//        session.setAttribute("user", user);
+//        session.setAttribute("accounts", accounts);
+//        User a = (User) session.getAttribute("user");
+//        List<Account> b = (List<Account>) session.getAttribute("accounts");
+//
+//        System.out.println(a);
+//        System.out.println(b);
+//
+//        BigDecimal totalBalance = accounts.stream()
+//                .map(Account::getBalance)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        // 모델에 사용자 및 계좌 정보 추가
+//        model.addAttribute("username", username);
+//        model.addAttribute("accounts", accounts);
+//        model.addAttribute("totalBalance", totalBalance);
+=======
         // 세션에서 'user' 객체를 가져옴
         User user = userService.getUserByUsername(username);
         List<Account> accounts = accountService.getUserAccounts(user);
@@ -72,6 +166,7 @@ public class RouterController {
         model.addAttribute("username", username);
         model.addAttribute("accounts", accounts);
         model.addAttribute("totalBalance", totalBalance);
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 
         return "home";
     }
@@ -106,15 +201,28 @@ public class RouterController {
         return "signup";
     }
 
-    @GetMapping("all-functions")
+    @GetMapping("/all-functions")
     public String allFunctions(Model model) {
         return "all-functions";
     }
 
+<<<<<<< HEAD
+    @PostMapping("/all-functions")
+    public String allFunctions_post(Model model) {
+        return "all-functions";
+    }
+
+
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
     @GetMapping("/account")
     public String makeAccount(Model model) {
         return  "account";
     }
 
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 }

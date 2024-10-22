@@ -6,6 +6,7 @@ import com.sion.bank.model.User;
 import com.sion.bank.repository.AccountRepository;
 import com.sion.bank.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,19 @@ public class AccountServiceImple implements AccountService {
         this.accountRepository = accountRepository;
     }
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private redisService redisService;
+
     @Override
     @Transactional
-    public Account createAccount(
-                                 String accountName,
+    public void createAccount(String accountName,
                                  String bankName,
                                  AccountType accountType,
-                                 BigDecimal balance) {
+                                 BigDecimal balance,
+                                 String sessionId) {
         
         System.out.println("계좌생성시작");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,13 +63,29 @@ public class AccountServiceImple implements AccountService {
         account.setAccountNumber(generateAccountNumber());  // 계좌번호 생성 로직
         account.setBalance(balance);
 
+        accountRepository.save(account);
+        redisService.publishEvent("accountCreation", "Account " + user.getId()+" " + sessionId + " created");
 
-        return accountRepository.save(account);
+
     }
 
     @Override
     public List<Account> getUserAccounts(User user) {
         return accountRepository.findByUserAndIsActiveTrue(user);
+    }
+    @Override
+    public List<Account> getAccountsByUserId(Long userId){
+        return accountRepository.findByUserIdAndIsActiveTrue(userId);
+    }
+
+    public Account getAccountByID(Long id){
+        try {
+            return accountRepository.findById(id)
+                    .orElseThrow(() -> new AccountNotFoundException("Account not found with id: " + id));
+        } catch (AccountNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public Account getAccountByID(Long id){
@@ -98,8 +121,13 @@ public class AccountServiceImple implements AccountService {
             // 예외 처리 (로그 또는 추가 작업 가능)
             throw new RuntimeException("Account not found");
         }
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
     }
     @Override
     @Transactional
@@ -139,4 +167,5 @@ public class AccountServiceImple implements AccountService {
                 return accountType;
         }
     }
+
 }

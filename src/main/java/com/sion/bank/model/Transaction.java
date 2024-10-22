@@ -1,12 +1,23 @@
 package com.sion.bank.model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
+
+import java.io.Serializable;
+=======
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
+<<<<<<< HEAD
+public class Transaction  implements Serializable {
+
+    private static final long serialVersionUID = 1L;  // 직렬화 버전 ID 추가
+=======
 public class Transaction {
+>>>>>>> 878a0c736e203ece2cc2a3fcf425baf8ee3257aa
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +48,39 @@ public class Transaction {
     @Column(nullable = false)
     private BigDecimal balanceAfterTransaction;
 
+    @Column(name = "from_account_balance_after")
+    private BigDecimal fromAccountBalanceAfter;
 
+    @Column(name = "to_account_balance_after")
+    private BigDecimal toAccountBalanceAfter;
+
+    public BigDecimal getFromAccountBalanceAfter() {
+        return fromAccountBalanceAfter;
+    }
+
+    public void setFromAccountBalanceAfter(BigDecimal fromAccountBalanceAfter) {
+        this.fromAccountBalanceAfter = fromAccountBalanceAfter;
+    }
+
+    public BigDecimal getToAccountBalanceAfter() {
+        return toAccountBalanceAfter;
+    }
+
+    public void setToAccountBalanceAfter(BigDecimal toAccountBalanceAfter) {
+        this.toAccountBalanceAfter = toAccountBalanceAfter;
+    }
+
+    public boolean isWithdrawal(Long accountId) {
+        return this.fromAccount.getId().equals(accountId);
+    }
+
+    public BigDecimal getBalanceForAccount(Long accountId) {
+        if (isWithdrawal(accountId)) {
+            return this.balanceAfterTransaction;
+        } else {
+            return this.toAccount.getBalance();
+        }
+    }
 
     public BigDecimal getBalanceAfterTransaction() {
         return balanceAfterTransaction;
