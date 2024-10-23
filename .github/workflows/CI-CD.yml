@@ -21,7 +21,7 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }}
+      DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }} # SHA 기반 이미지 사용
 
     steps:
       - name: Checkout Code
@@ -45,13 +45,9 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push $DOCKER_IMAGE
 
-      - name: Install Helm
+      - name: Update image tag in values file
         run: |
-          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-      - name: Deploy with Helm
-        run: |
-          helm upgrade --install gugu-bank ./path/to/your/chart --set image.tag=${{ github.sha }} -n gu9duck --wait --timeout 120s
+          sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./path/to/your/values.yaml
 
       - name: Install Argo CD CLI
         run: |
