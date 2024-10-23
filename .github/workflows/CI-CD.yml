@@ -47,7 +47,7 @@ jobs:
 
       - name: Update image tag in values file
         run: |
-          sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./scripts/values.yaml
+          sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./scripts/bankDeplo.yaml
 
       - name: Install Argo CD CLI
         run: |
