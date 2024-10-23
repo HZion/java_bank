@@ -45,6 +45,14 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push $DOCKER_IMAGE
 
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install gugu-bank ./path/to/your/chart --set image.tag=${{ github.sha }} -n gu9duck --wait --timeout 300
+
       - name: Install Argo CD CLI
         run: |
           curl -sSL https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -o argocd
