@@ -51,7 +51,7 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install gugu-bank ./path/to/your/chart --set image.tag=${{ github.sha }} -n gu9duck --wait --timeout 300
+          helm upgrade --install gugu-bank ./path/to/your/chart --set image.tag=${{ github.sha }} -n gu9duck --wait --timeout 120s
 
       - name: Install Argo CD CLI
         run: |
