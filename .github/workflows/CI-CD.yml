@@ -53,5 +53,6 @@ jobs:
       - name: Update Argo CD application
         run: |
           argocd login a2448034a5e1f4ff796af814926572ff-1664569724.ap-northeast-1.elb.amazonaws.com --username admin --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
+          argocd app set gu9duck-bank --force
           argocd app sync gu9duck-bank
           argocd app wait gu9duck-bank --timeout 150
