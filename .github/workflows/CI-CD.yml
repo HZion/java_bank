@@ -64,9 +64,6 @@ jobs:
         run: |
           git config --global user.email "sungue4098@naver.com" 
           git config --global user.name "sungue1" 
-
-          git pull --rebase origin main
-
           git add ./scripts/bankDeplo.yaml
           git commit -m "Update image to use GitHub SHA"
           git push
