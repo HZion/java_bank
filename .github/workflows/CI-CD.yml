@@ -49,6 +49,14 @@ jobs:
         run: |
           sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./scripts/bankDeplo.yaml
 
+      - name: Commit changes
+        run: |
+          git config --global user.email "sungue4098@naver.com" 
+          git config --global user.name "sungue1" 
+          git add ./scripts/bankDeplo.yaml
+          git commit -m "Update image to use GitHub SHA"
+          git push
+
       - name: Install Argo CD CLI
         run: |
           curl -sSL https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -o argocd
@@ -59,11 +67,3 @@ jobs:
           argocd login a2448034a5e1f4ff796af814926572ff-1664569724.ap-northeast-1.elb.amazonaws.com --username admin --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
           argocd app sync gu9duck-bank --force
           argocd app wait gu9duck-bank --timeout 150
-
-      - name: Commit changes
-        run: |
-          git config --global user.email "sungue4098@naver.com" 
-          git config --global user.name "sungue1" 
-          git add ./scripts/bankDeplo.yaml
-          git commit -m "Update image to use GitHub SHA"
-          git push
