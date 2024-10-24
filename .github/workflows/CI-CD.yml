@@ -51,8 +51,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --local user.email "github-actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.email "sungue4098@naver.com"
+          git config --local user.name "sungue1"
           git add ./scripts/bankDeplo.yaml
           git commit -m "Update image to use GitHub SHA"
           git push
