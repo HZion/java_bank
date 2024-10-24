@@ -49,6 +49,14 @@ jobs:
         run: |
           sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./scripts/bankDeplo.yaml
 
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add ./scripts/bankDeplo.yaml
+          git commit -m "Update image to use GitHub SHA"
+          git push
+
       - name: Install Argo CD CLI
         run: |
           curl -sSL https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -o argocd
