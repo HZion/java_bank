@@ -39,3 +39,10 @@ spec:
                 secretKeyRef:
                   name: my-redis
                   key: redis-password
+          resources:  # 리소스 요청 및 제한 추가
+            requests:
+              cpu: "100m"  # 요청 CPU
+              memory: "128Mi"  # 요청 메모리
+            limits:
+              cpu: "200m"  # 제한 CPU
+              memory: "256Mi"  # 제한 메모리
