@@ -9,7 +9,7 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }} # SHA 기반 이미지 사용1
-  GIT_USEREMAIL: ${{ sungue4098@naver.com }}
+  GIT_USEREMAIL: ${{ 'sungue4098@naver.com' }}
   GIT_USERNAME: ${{ sungue1 }}
   ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
   ARGOCD_USERNAME: ${{ admin }}
