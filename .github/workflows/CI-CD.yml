@@ -33,11 +33,13 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t $DOCKER_IMAGE .
+        run: docker build -t $DOCKER_IMAGE .
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
       - name: Push Docker image to Docker Hub
+        run: docker push $DOCKER_IMAGE
         run: docker push $DOCKER_IMAGE
 
       - name: Update image tag in values file
@@ -45,6 +47,8 @@ jobs:
           sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./scripts/bankDeplo.yaml
       - name: Commit changes
         run: |
+          git config --global user.email "sungue4098@naver.com" 
+          git config --global user.name "sungue1" 
           git config --global user.email "sungue4098@naver.com" 
           git config --global user.name "sungue1" 
           git add ./scripts/bankDeplo.yaml
