@@ -40,7 +40,6 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: docker push $DOCKER_IMAGE
-        run: docker push $DOCKER_IMAGE
 
       - name: Update image tag in values file
         run: |
