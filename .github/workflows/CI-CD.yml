@@ -6,10 +6,9 @@ on:
       - main
       - develop
 
-  pull_request:
-    branches:
-      - main
-      - develop
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }} # SHA 기반 이미지 사용1
 
 jobs:
   build:
@@ -18,10 +17,6 @@ jobs:
       contents: write
       packages: write
       deployments: write
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }} # SHA 기반 이미지 사용1
 
     steps:
       - name: Checkout Code
