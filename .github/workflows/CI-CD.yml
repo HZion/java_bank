@@ -9,10 +9,10 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }} # SHA 기반 이미지 사용1
-  GIT_USEREMAIL: ${{ 'sungue4098@naver.com' }}
-  GIT_USERNAME: ${{ sungue1 }}
+  GIT_USEREMAIL: "sungue4098@naver.com"
+  GIT_USERNAME: "sungue1"
   ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
-  ARGOCD_USERNAME: ${{ admin }}
+  ARGOCD_USERNAME: "admin"
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Build Docker image
-        run: docker build -t ${{ env.DOCKER_IMAGE}}E .
+        run: docker build -t ${{ env.DOCKER_IMAGE}} .
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
@@ -49,8 +49,8 @@ jobs:
           sed -i "s|image: sungue/gugu-bank:.*|image: sungue/gugu-bank:${{ github.sha }}|g" ./scripts/bankDeplo.yaml
       - name: Commit changes
         run: |
-          git config --global user.email ${{ env.GIT_USEREMAIL }}
-          git config --global user.name ${{ env.GIT_USERNAME }}
+          git config --global user.email "${{ env.GIT_USEREMAIL }}"
+          git config --global user.name "${{ env.GIT_USERNAME }}"
           git add ./scripts/bankDeplo.yaml
           git commit -m "Update image to use GitHub SHA"
           git push
