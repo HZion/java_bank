@@ -60,6 +60,6 @@ jobs:
           sudo install -m 0755 argocd /usr/local/bin/argocd
       - name: Update Argo CD application
         run: |
-          argocd login a2448034a5e1f4ff796af814926572ff-1664569724.ap-northeast-1.elb.amazonaws.com --username ${{ env.ARGOCD_USERNAME }} --password ${{ env.ARGOCD_PASSWORD }} --insecure
+          argocd login a2448034a5e1f4ff796af814926572ff-1664569724.ap-northeast-1.elb.amazonaws.com --username "${{ env.ARGOCD_USERNAME }}" --password "${{ env.ARGOCD_PASSWORD }} --insecure
           argocd app sync gu9duck-bank --force
           argocd app wait gu9duck-bank --timeout 150
