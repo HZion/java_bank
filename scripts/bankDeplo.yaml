@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: gugu-bank-container
-          image: sungue/gugu-bank:3b1e6f0a61e71e87505141b415166fa8f2ecb8f9
+          image: sungue/gugu-bank:65d5db4f2426c1223270dcdfc6a2fe683c6ce814
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
