@@ -9,6 +9,8 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DOCKER_IMAGE: sungue/gugu-bank:${{ github.sha }} # SHA 기반 이미지 사용1
+  GIT_USEREMAIL: "sungue4098@naver.com"
+  GIT_USERNAME: "sungue1"
 
 jobs:
   build:
@@ -46,8 +48,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.email "sungue4098@naver.com" 
-          git config --global user.name "sungue1" 
+          git config --global user.email "${{ env.GIT_USEREMAIL }}"
+          git config --global user.name "${{ env.GIT_USERNAME }}"
           git add ./scripts/bankDeplo.yaml
           git commit -m "Update image to use GitHub SHA"
           git push
