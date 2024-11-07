@@ -21,6 +21,5 @@ env:
         key: redis-password
 ports:
   - containerPort: 8080  # gugu-bank 애플리케이션 포트
-```
-
-![image](https://github.com/user-attachments/assets/febe02fb-1a67-4fd3-bd20-eca23f071d97)
+``
+<img src="https://github.com/user-attachments/assets/febe02fb-1a67-4fd3-bd20-eca23f071d97" alt="Example Image" width="300" height="200">
