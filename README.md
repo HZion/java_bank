@@ -26,4 +26,4 @@ ports:
 
 
 ![image](https://github.com/user-attachments/assets/febe02fb-1a67-4fd3-bd20-eca23f071d97)
-<img src="https://github.com/user-attachments/assets/febe02fb-1a67-4fd3-bd20-eca23f071d97" alt="Example Image" width="300" height="200">
+<img src="https://github.com/user-attachments/assets/febe02fb-1a67-4fd3-bd20-eca23f071d97" alt="Example Image" width="300" height="600">
