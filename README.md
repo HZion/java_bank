@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/fb2402ba-d84b-44e1-8291-0ef4af044a85)앱 포트 8080
+앱 포트 8080
 redis 6379
 
 쿠버 배포시
