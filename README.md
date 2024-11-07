@@ -22,3 +22,5 @@ env:
 ports:
   - containerPort: 8080  # gugu-bank 애플리케이션 포트
 ```
+
+![image](https://github.com/user-attachments/assets/febe02fb-1a67-4fd3-bd20-eca23f071d97)
