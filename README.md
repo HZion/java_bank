@@ -24,7 +24,8 @@ ports:
 ```
 
 -시연 영상
-https://youtu.be/T-mUfsR4lKE
+![ScreenRec_2024-11-19 21-26-49](https://github.com/user-attachments/assets/24ffb99f-0f2f-403e-93b7-17addad2e177)
+
 
 
 
